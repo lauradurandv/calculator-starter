@@ -11,15 +11,22 @@ import {
 } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import axios from "axios";
-
 import { useState, useRef, useEffect } from "react";
 
+//types
+type Sign = "+" | "-" | "/" | "*" | "";
+interface Params {
+  operation: Sign;
+  first: number;
+  second: number;
+}
+
 const Calculator = () => {
-  const [operation, setOperation] = useState("");
-  const [result, setResult] = useState("");
-  const firstRef = useRef(null);
-  const secondRef = useRef(null);
-  const welcomeMessage = "Calculator is ready!";
+  const [operation, setOperation] = useState<Sign>("");
+  const [result, setResult] = useState<string | number>("");
+  const firstRef = useRef<null | number>(null);
+  const secondRef = useRef<null | number>(null);
+  const welcomeMessage: string = "Calculator is ready!";
 
   const handleChange = (e) => {
     setOperation(e.target.value);
@@ -31,7 +38,7 @@ const Calculator = () => {
 
   const handleCalculate = (e) => {
     e.preventDefault();
-    const query = {
+    const query:Params = {
       operation: operation,
       first: firstRef.current.value,
       second: secondRef.current.value,
@@ -129,31 +136,3 @@ const Calculator = () => {
   );
 };
 export default Calculator;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
