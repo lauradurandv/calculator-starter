@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import axios from "axios";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 //types
 type Sign = "+" | "-" | "/" | "*" | "";
@@ -28,17 +28,17 @@ const Calculator = () => {
   const secondRef = useRef<null | number>(null);
   const welcomeMessage: string = "Calculator is ready!";
 
-  const handleChange = (e) => {
-    setOperation(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setOperation(e.target.value as Sign);
   };
 
   useEffect(() => {
     setResult(welcomeMessage);
   }, []);
 
-  const handleCalculate = (e) => {
+  const handleCalculate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const query:Params = {
+    const query: Params = {
       operation: operation,
       first: firstRef.current.value,
       second: secondRef.current.value,
@@ -54,7 +54,7 @@ const Calculator = () => {
       });
   };
 
-  const handleReset = (e) => {
+  const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setOperation("");
     setResult(welcomeMessage);
@@ -114,7 +114,7 @@ const Calculator = () => {
         </Grid2>
         <Grid2 xs={2}>
           <FormControl fullWidth>
-            <Button variant="outlines" onClick={handleReset}>
+            <Button type="button" variant="outlines" onClick={handleReset}>
               Reset
             </Button>
           </FormControl>
