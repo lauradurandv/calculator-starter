@@ -11,27 +11,34 @@ import {
 } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import axios from "axios";
+import React, { useState, useRef, useEffect } from "react";
 
-import { useState, useRef, useEffect } from "react";
+//types
+type Sign = "+" | "-" | "/" | "*" | "";
+interface Params {
+  operation: Sign;
+  first: number;
+  second: number;
+}
 
 const Calculator = () => {
-  const [operation, setOperation] = useState("");
-  const [result, setResult] = useState("");
-  const firstRef = useRef(null);
-  const secondRef = useRef(null);
-  const welcomeMessage = "Calculator is ready!";
+  const [operation, setOperation] = useState<Sign>("");
+  const [result, setResult] = useState<string | number>("");
+  const firstRef = useRef<null | number>(null);
+  const secondRef = useRef<null | number>(null);
+  const welcomeMessage: string = "Calculator is ready!";
 
-  const handleChange = (e) => {
-    setOperation(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setOperation(e.target.value as Sign);
   };
 
   useEffect(() => {
     setResult(welcomeMessage);
   }, []);
 
-  const handleCalculate = (e) => {
+  const handleCalculate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const query = {
+    const query: Params = {
       operation: operation,
       first: firstRef.current.value,
       second: secondRef.current.value,
@@ -47,7 +54,7 @@ const Calculator = () => {
       });
   };
 
-  const handleReset = (e) => {
+  const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setOperation("");
     setResult(welcomeMessage);
@@ -107,7 +114,7 @@ const Calculator = () => {
         </Grid2>
         <Grid2 xs={2}>
           <FormControl fullWidth>
-            <Button variant="outlines" onClick={handleReset}>
+            <Button type="button" variant="outlines" onClick={handleReset}>
               Reset
             </Button>
           </FormControl>
@@ -129,31 +136,3 @@ const Calculator = () => {
   );
 };
 export default Calculator;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

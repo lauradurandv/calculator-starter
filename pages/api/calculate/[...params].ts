@@ -1,6 +1,14 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { add, subtract, multiply, divide } from "../../../utils/calculate";
 
-export default function handler(req, res) {
+//types
+interface Params {
+  operation: string;
+  first: number;
+  second: number;
+}
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method !== "GET") {
       throw new Error(
@@ -8,7 +16,7 @@ export default function handler(req, res) {
       );
     }
 
-    const params = extractParams(req.query.params);
+    const params:Params = extractParams(req.query.params);
     let result;
     switch (params.operation) {
       case "add":
@@ -32,7 +40,8 @@ export default function handler(req, res) {
   }
 }
 
-function extractParams(queryParams) {
+//Using tuple because it is finite and types will never change here
+function extractParams(queryParams: [string, string, string]) {
   if (queryParams.length !== 3) {
     throw new Error(
       `Query params should have 3 items. Received ${queryParams.length}: ${queryParams}`
@@ -40,7 +49,7 @@ function extractParams(queryParams) {
   }
 
   try {
-    const params = {
+    const params: Params = {
       operation: queryParams[0],
       first: parseInt(queryParams[1]),
       second: parseInt(queryParams[2]),
@@ -50,4 +59,3 @@ function extractParams(queryParams) {
     throw new Error(`Failed to process query params. Received: ${queryParams}`);
   }
 }
-
